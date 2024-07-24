@@ -29,9 +29,19 @@ class MenuSpec extends AnyWordSpec with Matchers {
   private val testMenu: Menu = Menu(hotDrinks, coldDrinks, hotFoods, coldFoods)
 
   "createMenu" should {
-    "populate item list" when {
+    "should contain 8 items" when {
       "method is called" in {
-
+      testMenu.createMenu.length shouldBe 8
+      }
+    }
+    "should contain coffee" when {
+      "method is called" in {
+        testMenu.createMenu.contains(coffee)
+      }
+    }
+    "populate menu items" when {
+      "method is called" in {
+        testMenu.createMenu shouldEqual hotDrinks ++ coldDrinks ++ hotFoods ++ coldFoods
       }
     }
   }

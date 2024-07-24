@@ -2,7 +2,9 @@ package model
 
 case class Menu(hotDrinks: List[MenuItem], coldDrinks: List[MenuItem],hotFoods: List[MenuItem], coldFoods: List[MenuItem]) {
 
-  def createMenu: List[MenuItem] = ???
+  def createMenu: List[MenuItem] = {
+    hotDrinks ++ coldDrinks ++ hotFoods ++ coldFoods
+  }
 
 
   def addMenuItem (item: MenuItem): Menu = {
