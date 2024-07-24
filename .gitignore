@@ -27,3 +27,15 @@ bin/
 # other?
 .scala_dependencies
 .cache-main
+
+*.class
+*.log
+
+/.bsp
+/.idea
+/target
+/project
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
