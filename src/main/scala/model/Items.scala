@@ -17,18 +17,18 @@ object Items {
   val gourmetSmoothie: MenuItem = MenuItem(name = "gourmet smoothie", price = 5.5, itemQuality = ItemQuality.Premium, itemType = ItemType.ColdDrinks)
 
   // Hot Food
-  val pancakes: MenuItem = MenuItem(name = "pancakes", price = 5.0, itemQuality = ItemQuality.Standard, itemType = ItemType.HotFood)
-  val eggsBenedict: MenuItem = MenuItem(name = "eggs benedict", price = 8.0, itemQuality = ItemQuality.Premium, itemType = ItemType.HotFood)
-  val grilledCheese: MenuItem = MenuItem(name = "grilled cheese sandwich", price = 4.5, itemQuality = ItemQuality.Standard, itemType = ItemType.HotFood)
-  val veggieBurger: MenuItem = MenuItem(name = "veggie burger", price = 7.0, itemQuality = ItemQuality.Standard, itemType = ItemType.HotFood)
-  val steakSandwich: MenuItem = MenuItem(name = "steak sandwich", price = 10.0, itemQuality = ItemQuality.Premium, itemType = ItemType.HotFood)
+  val pancakes: MenuItem = MenuItem(name = "pancakes", price = 5.0, itemQuality = ItemQuality.Standard, itemType = ItemType.HotFoods)
+  val eggsBenedict: MenuItem = MenuItem(name = "eggs benedict", price = 8.0, itemQuality = ItemQuality.Premium, itemType = ItemType.HotFoods)
+  val grilledCheese: MenuItem = MenuItem(name = "grilled cheese sandwich", price = 4.5, itemQuality = ItemQuality.Standard, itemType = ItemType.HotFoods)
+  val veggieBurger: MenuItem = MenuItem(name = "veggie burger", price = 7.0, itemQuality = ItemQuality.Standard, itemType = ItemType.HotFoods)
+  val steakSandwich: MenuItem = MenuItem(name = "steak sandwich", price = 10.0, itemQuality = ItemQuality.Premium, itemType = ItemType.HotFoods)
 
   // Cold Food
-  val caesarSalad: MenuItem = MenuItem(name = "caesar salad", price = 6.0, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdFood)
-  val yogurtParfait: MenuItem = MenuItem(name = "greek yogurt parfait", price = 4.5, itemQuality = ItemQuality.Premium, itemType = ItemType.ColdFood)
-  val hamCheeseSandwich: MenuItem = MenuItem(name = "ham and cheese sandwich", price = 5.0, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdFood)
-  val fruitSalad: MenuItem = MenuItem(name = "fruit salad", price = 4.0, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdFood)
-  val smokedSalmonBagel: MenuItem = MenuItem(name = "smoked salmon bagel", price = 8.5, itemQuality = ItemQuality.Premium, itemType = ItemType.ColdFood)
+  val caesarSalad: MenuItem = MenuItem(name = "caesar salad", price = 6.0, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdFoods)
+  val yogurtParfait: MenuItem = MenuItem(name = "greek yogurt parfait", price = 4.5, itemQuality = ItemQuality.Premium, itemType = ItemType.ColdFoods)
+  val hamCheeseSandwich: MenuItem = MenuItem(name = "ham and cheese sandwich", price = 5.0, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdFoods)
+  val fruitSalad: MenuItem = MenuItem(name = "fruit salad", price = 4.0, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdFoods)
+  val smokedSalmonBagel: MenuItem = MenuItem(name = "smoked salmon bagel", price = 8.5, itemQuality = ItemQuality.Premium, itemType = ItemType.ColdFoods)
 
   val hotDrinks: List[MenuItem] = List(coffee, greenTea, decaf, latte, caramelLatte)
   val coldDrinks: List[MenuItem] = List(icedCoffee, lemonade, smoothie, icedTea, gourmetSmoothie)
