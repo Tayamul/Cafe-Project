@@ -48,11 +48,8 @@ class MenuSpec extends AnyWordSpec with Matchers {
 
   "addMenuItem" should {
     "add new item to list" in {
-
       val smashBurger: MenuItem = MenuItem(name = "smash burger", price = 17.5, itemQuality = ItemQuality.Premium, itemType = ItemType.HotFoods)
-
-      testMenu.addMenuItem(smashBurger)
-      testMenu.createMenu.length shouldBe 9
+      testMenu.addMenuItem(smashBurger) shouldEqual Menu(hotDrinks, coldDrinks, hotFoods :+ smashBurger, coldFoods)
     }
   }
 
