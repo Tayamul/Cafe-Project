@@ -49,9 +49,12 @@ case class Menu(
 
 object Menu {
 
+  val instance1 =  Menu("Coke", 1.50, ItemQuality.Standard, ItemType.ColdDrink)
+  val instance2 = Menu("Sprite", 1.50, ItemQuality.Standard, ItemType.ColdDrink),
   val standardItems: List[Menu] = List(
-    Menu("Coke", 1.50, ItemQuality.Standard, ItemType.ColdDrink),
-    Menu("Sprite", 1.50, ItemQuality.Standard, ItemType.ColdDrink),
+    instance1,
+    instance2,
+
     Menu("Beer", 7.50, ItemQuality.Standard, ItemType.ColdDrink),
     Menu("Cocktail", 12.50, ItemQuality.Standard, ItemType.ColdDrink),
     Menu("Latte", 4.75, ItemQuality.Standard, ItemType.HotDrink),
