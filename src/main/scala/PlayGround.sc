@@ -4,10 +4,10 @@
 sealed trait ColdDrinks
 
 object ColdDrinks {
-  case object COKE extends ColdDrinks
-  case object SPRITE extends ColdDrinks
-  case object BEER extends ColdDrinks
-  case object COCKTAIL extends ColdDrinks
+  case object Coke extends ColdDrinks
+  case object Sprite extends ColdDrinks
+  case object Beer extends ColdDrinks
+  case object Cocktail extends ColdDrinks
 
 }
 
@@ -15,10 +15,10 @@ object ColdDrinks {
 case class MENU(drink: ColdDrinks)
 
 // Example usage
-val cokeMenu = MENU(ColdDrinks.COKE)
-val spriteMenu = MENU(ColdDrinks.SPRITE)
-val beerMenu = MENU(ColdDrinks.BEER)
-val cocktailMenu = MENU(ColdDrinks.COCKTAIL)
+val cokeMenu = MENU(ColdDrinks.Coke)
+val spriteMenu = MENU(ColdDrinks.Sprite)
+val beerMenu = MENU(ColdDrinks.Beer)
+val cocktailMenu = MENU(ColdDrinks.Cocktail)
 
 
 case class Menu(
@@ -35,22 +35,20 @@ object MenuItemType {
   case object Premium extends MenuItemType
 }
 
-case class MenuItem(name: String, price: Double, itemType: MenuItemType)
-
 object Menu {
 
-  var standardItems: List[MenuItem] = List(
-    MenuItem("Coke", 1.50, MenuItemType.Standard),
-    MenuItem("Sprite", 1.50, MenuItemType.Standard),
-    MenuItem("Beer", 3.00, MenuItemType.Standard),
-    MenuItem("Cocktail", 5.00, MenuItemType.Standard)
+  var standardItems: List[Menu] = List(
+    Menu("Coke", 1.50, MenuItemType.Standard),
+    Menu("Sprite", 1.50, MenuItemType.Standard),
+    Menu("Beer", 3.00, MenuItemType.Standard),
+    Menu("Cocktail", 5.00, MenuItemType.Standard)
   )
 
-  var premiumItems: List[MenuItem] = List(
-    MenuItem("Stella", 1.50, MenuItemType.Standard),
-    MenuItem("Pin Colada", 1.50, MenuItemType.Standard),
-    MenuItem("Red Wine", 3.00, MenuItemType.Standard),
-    MenuItem("White Wine", 5.00, MenuItemType.Standard)
+  var premiumItems: List[Menu] = List(
+    Menu("Stella", 1.50, MenuItemType.Standard),
+    Menu("Pin Colada", 1.50, MenuItemType.Standard),
+    Menu("Red Wine", 3.00, MenuItemType.Standard),
+    Menu("White Wine", 5.00, MenuItemType.Standard)
   )
 
-  def getMenuItems: List[MenuItem] = standardItems ++ premiumItems
+  def getMenuItems: List[Menu] = standardItems ++ premiumItems
