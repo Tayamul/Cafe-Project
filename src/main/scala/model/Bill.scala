@@ -1,3 +1,3 @@
 package model
 
-case class Bill(order: Order, total: Double, Option[serviceCharge: Double], Option[loyaltyDiscount]: Double, finalTotal: Double) {
+case class Bill(order: Order, total: Double, serviceCharge: Double, loyaltyDiscount: Double, finalTotal: Double)
