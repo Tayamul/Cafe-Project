@@ -1,4 +1,4 @@
-case class Bill(order: Order, total: Double, Option[serviceCharge: Double], loyaltyDiscount: Double, finalTotal: Double) {
+case class Bill(order: Order, total: Double, Option[serviceCharge: Double], Option[loyaltyDiscount]: Double, finalTotal: Double) {
 
 }
 
@@ -11,10 +11,21 @@ case class Customer(name: String, age: Int, loyaltyCard: Option[LoyaltyCard])
 case class ServiceCharge(percentage: Double, maxCharge: Option[Double] = None)
 
 
+
+
+
+
 sealed trait LoyaltyCard
 
 case class DrinksLoyaltyCard(stamps: Int) extends LoyaltyCard
 case class DiscountLoyaltyCard(stars: Int, totalSpent: Double) extends LoyaltyCard
+
+
+
+
+
+
+
 
 object OrderService {
 
