@@ -11,7 +11,9 @@ object OrderService {
   val customer: Customer = Customer("Jake", 28)
   val items: List[MenuItem] = List(Items.coffee, Items.latte, Items.caesarSalad, Items.smoothie, Items.coffee)
 
-  def calculateTotal(order: Order): Double = ???
+  def calculateTotal(order: Order): Double = {
+    order.items.map(_.price).sum
+  }
 
 
 }

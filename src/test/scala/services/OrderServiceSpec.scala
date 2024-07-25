@@ -32,4 +32,18 @@ class OrderServiceSpec extends AnyWordSpec with Matchers {
       newOrder.items should not contain (Items.caesarSalad)
     }
   }
+
+
+  "calculateTotal" should {
+    "return the total amount of all items" in {
+      val newOrder: Order = createOrder(items, customer)
+      calculateTotal(newOrder) shouldEqual 7.5
+    }
+
+    "return the correct amount of the total (7.5)" in {
+      val newOrder: Order = createOrder(items, customer)
+      calculateTotal(newOrder) should not equal 7
+    }
+
+  }
 }
