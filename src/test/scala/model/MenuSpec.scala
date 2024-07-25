@@ -96,4 +96,16 @@ class MenuSpec extends AnyWordSpec with Matchers {
     }
   }
 
+  "removeMenuItem" should {
+    "remove item in hot foods" in {
+      val initialLength = testMenu.hotFoods.length
+      val updatedLength = testMenu.removeMenuItem(pancakes)
+      updatedLength.hotFoods.length shouldBe (initialLength - 1)
+    }
+  }
+  "remove item in cold foods" in {
+    val coldFoodsTotal = testMenu.coldFoods
+    val coldFoodsExists = testMenu.removeMenuItem(yogurtParfait)
+    coldFoodsExists.coldFoods shouldBe List(caesarSalad)
+  }
 }
