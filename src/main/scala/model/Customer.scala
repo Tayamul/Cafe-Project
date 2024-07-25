@@ -1,5 +1,3 @@
 package model
 
-case class Customer {
-
-}
+case class Customer(name: String, age: Int)
