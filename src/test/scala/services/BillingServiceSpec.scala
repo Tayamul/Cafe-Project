@@ -4,6 +4,7 @@ import model._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import services.BillingService._
+import services.OrderService.createOrder
 
 import scala.language.postfixOps
 
@@ -103,6 +104,13 @@ class BillingServiceSpec extends AnyWordSpec with Matchers {
     }
   }
 
+  "calculateBill" should {
+    "display customer name, order items, service charge and total amount" in {
+      val newOrder: Order = Order(List(icedCoffee, lemonade, eggsBenedict), tom)
+      val bill = calculateBill(tom, newOrder, )
+      bill.customer shouldBe tom
+    }
+  }
   //  "calculateLoyaltyDiscount" should {
   //    "return the total amount of all items" in {
   //      val newOrder: Order = createOrder(items, customer)
@@ -111,11 +119,4 @@ class BillingServiceSpec extends AnyWordSpec with Matchers {
   //  }
   //
   //
-  //  "generateBill" should {
-  //    "return the total amount of all items" in {
-  //      val newOrder: Order = createOrder(items, customer)
-  //      calculateTotal(newOrder) shouldEqual 7.5
-  //    }
-  //  }
-
 }
