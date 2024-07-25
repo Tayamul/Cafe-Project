@@ -8,16 +8,24 @@ object LoyaltyService {
   def addStampToDrinksCard(customer: Customer): Customer = {
     customer.loyaltyCard match {
       case Some(card: DrinksLoyaltyCard) if card.stamps < 10 =>
-        customer.copy(loyaltyCard = Some(card.copy(stamps = card.stamps + 1)))
+        val updatedCard = card.copy(stamps = card.stamps + 1)
+        customer.copy(loyaltyCard = Some(updatedCard))
+
       case _ => customer
     }
   }
 
-  def addStarsToDiscountCard
+  //  def addStarsToDiscountCard
+  //
+  //  def checkLoyaltyEligibility
+  //
+  //  def calculateLoyaltyDiscount
 
-  def checkLoyaltyEligibility
+  // Test case 1: Adding a stamp to a DrinksLoyaltyCard with less than 10 stamps
+  // Test case 2: Not modifying the customer if the DrinksLoyaltyCard already has 10 stamps
+  // Test case 3: Not modifying the customer if the customer does not have a DrinksLoyaltyCard
+  // Test case 4: Not modifying the customer if the loyalty card is not a DrinksLoyaltyCard
 
-  def calculateLoyaltyDiscount
 
 }
 
