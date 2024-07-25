@@ -31,6 +31,7 @@ class BillingServiceSpec extends AnyWordSpec with Matchers {
   private val chickenBurger: MenuItem = MenuItem(name = "chicken burger", price = 200.0, itemQuality = ItemQuality.Standard, itemType = ItemType.HotFoods)
 
   private val tom: Customer = Customer("Tom", 22, None)
+  //  private val gary: Customer = Customer("Gary", 22, None)
   //  private val items: List[MenuItem] = List(Items.coffee, Items.latte)
 
   "calculateServiceCharge" should {
@@ -80,6 +81,24 @@ class BillingServiceSpec extends AnyWordSpec with Matchers {
       "order contains only cold drinks and no premium items" in {
         val newOrder: Order = Order(List(icedCoffee), tom)
         calculateServiceCharge(newOrder, None) shouldEqual 0.0
+      }
+    }
+    "calculate the additional custom service charge" when {
+      "the custom service charge isAdditive" in {
+        val newOrder: Order = Order(List(icedCoffee), tom)
+        calculateServiceCharge(newOrder, Some(CustomServiceCharge(30, isAdditive = true))) shouldEqual 1.05
+      }
+      "the custom service charge isAdditive and when the food is hot" in {
+        val newOrder: Order = Order(List(icedCoffee, pancakes), tom)
+        calculateServiceCharge(newOrder, Some(CustomServiceCharge(30, isAdditive = true))) shouldEqual 4.25
+      }
+      "the custom service charge isAdditive and when premium hot food is included" in {
+        val newOrder: Order = Order(List(eggsBenedict, pancakes), tom)
+        calculateServiceCharge(newOrder, Some(CustomServiceCharge(30, isAdditive = true))) shouldEqual 7.15
+      }
+      "custom service charge !isAdditive" in {
+        val newOrder: Order = Order(List(icedCoffee), tom)
+        calculateServiceCharge(newOrder, Some(CustomServiceCharge(30, isAdditive = false))) shouldEqual 1.05
       }
     }
   }
