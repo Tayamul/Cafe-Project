@@ -36,23 +36,15 @@ object BillingService {
     BigDecimal(totalServiceCharge).setScale(2, RoundingMode.HALF_UP).toDouble
   }
 
-
-  //def calculateBill(order: Order, customerServiceCharge: Option[Double] = None): Bill = {
-  def calculateBill(order: Order): Bill = {
-    calculateServiceCharge(order, customServiceCharge: Option[CustomServiceCharge])
-    val menuTotal = calculateTotal(order)
-    val customServiceCharge: Option[CustomServiceCharge] = None
-    val standardServiceCharge:
-    val bill = menuTotal + serviceCharge
-  }
-
-
-}
-
   //  def calculateLoyaltyDiscount
-  //
-  //  def generateBill
 
+  def calculateBill(customer: Customer, order: Order, customServiceCharge: Option[CustomServiceCharge]): Bill = {
+    val menuTotal = order.items.map(_.price).sum
+    val serviceCharge = calculateServiceCharge(order, customServiceCharge)
+    val finalTotal = menuTotal + serviceCharge
+
+    Bill(customer, order, serviceCharge, finalTotal)
+  }
 
 }
 
