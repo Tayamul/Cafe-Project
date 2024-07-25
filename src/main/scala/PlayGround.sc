@@ -86,3 +86,27 @@ object Menu {
                    order: Order,
                    total: Double,
                    serviceCharge: Double)
+
+/** POS SYSTEM - Service Charge Option[20%] - val menuTotal
+ * Cold drinks only - no service charge - else 0 charge
+ * Hot drinks or cold Food - 10% (2 decimals) - val hasHotDrinkOrColdFood
+ * Hot foods - 20% with max s.charge of £20 - val hasHotFood
+ * Premium - 25% with a max s.charge of £40 - val hasPremiumItem
+ * Custom service charge Option - Additional or instead of current
+ *
+ * POS SYSTEM  - Loyalty Scheme (create Customer case class - params of below)
+ * Either Drinks Loyalty or Discount Loyalty (create DrinksLoyalty & DiscountLoyalty case class)
+ * Customer Requirements - They must not have a card, must have purchases > 5, over 18 (create boolean if statement to match requirements)
+ * */
+
+case class Customer(
+                     name: String,
+                     age: Int,
+                     ordersTotal: Int, // orders.length
+                     drinksLoyalty: Option[DrinksLoyaltyCard] = None,
+                     discountLoyalty: Option[DiscountLoyaltyCard] = None
+                   )
+
+  case class DrinksLoyaltyCard()
+
+  case class DiscountLoyaltyCard()
