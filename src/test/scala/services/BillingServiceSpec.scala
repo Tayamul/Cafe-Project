@@ -107,8 +107,20 @@ class BillingServiceSpec extends AnyWordSpec with Matchers {
   "calculateBill" should {
     "display customer name, order items, service charge and total amount" in {
       val newOrder: Order = Order(List(icedCoffee, lemonade, eggsBenedict), tom)
-      val bill = calculateBill(tom, newOrder, )
+      val bill = calculateBill(tom, newOrder, None)
       bill.customer shouldBe tom
+      bill.order shouldBe newOrder
+      bill.serviceCharge shouldBe 3.63
+      bill.finalTotal shouldEqual 18.13
+    }
+    "display customer name, order items, service charge and total amount with custom service charge" in {
+      val newOrder: Order = Order(List(icedCoffee, lemonade, eggsBenedict), tom)
+      //      val customServiceCharge = Some(CustomServiceCharge(5.0, isAdditive = true))
+      val bill = calculateBill(tom, newOrder, customServiceCharge)
+      bill.customer shouldBe tom
+      bill.order shouldBe newOrder
+      bill.serviceCharge shouldBe 4.36
+      bill.finalTotal shouldEqual 18.86
     }
   }
   //  "calculateLoyaltyDiscount" should {
