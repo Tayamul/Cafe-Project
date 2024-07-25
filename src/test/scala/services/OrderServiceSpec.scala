@@ -9,7 +9,7 @@ import scala.language.postfixOps
 
 class OrderServiceSpec extends AnyWordSpec with Matchers {
 
-  private val customer: Customer = Customer("Tom", 22)
+  private val customer: Customer = Customer("Tom", 22, None)
   private val items: List[MenuItem] = List(Items.coffee, Items.latte)
 
   "createOrder" should {
@@ -17,7 +17,7 @@ class OrderServiceSpec extends AnyWordSpec with Matchers {
     //      createOrder(items, customer) shouldBe isInstanceOf[Order]
     //    }
     "return the total customer's order" in {
-      OrderService.createOrder(items, customer) shouldBe Order(List(Items.coffee, Items.latte), Customer("Tom", 22))
+      OrderService.createOrder(items, customer) shouldBe Order(List(Items.coffee, Items.latte), Customer("Tom", 22, None))
     }
     "return the total quantity of the items" in {
       val newOrder = OrderService.createOrder(items, customer)
