@@ -4,6 +4,7 @@ import scala.math.BigDecimal.RoundingMode
 import model._
 import services._
 import OrderService._
+import utils.Utils.roundTo2dp
 
 
 object BillingService {
@@ -33,15 +34,15 @@ object BillingService {
         standardServiceCharge
     }
     // Round to 2 decimal places
-    BigDecimal(totalServiceCharge).setScale(2, RoundingMode.HALF_UP).toDouble
+    roundTo2dp(totalServiceCharge)
   }
 
   //  def calculateLoyaltyDiscount
 
   def calculateBill(customer: Customer, order: Order, customServiceCharge: Option[CustomServiceCharge]): Bill = {
-    val menuTotal = order.items.map(_.price).sum
+    val menuTotal = calculateTotal(order)
     val serviceCharge = calculateServiceCharge(order, customServiceCharge)
-    val finalTotal = menuTotal + serviceCharge
+    val finalTotal = roundTo2dp(menuTotal + serviceCharge)
 
     Bill(customer, order, serviceCharge, finalTotal)
   }
