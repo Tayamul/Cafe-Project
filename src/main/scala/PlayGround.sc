@@ -110,3 +110,15 @@ case class Customer(
   case class DrinksLoyaltyCard()
 
   case class DiscountLoyaltyCard()
+
+  objectPOSSystem {
+
+    def calculateBill(order: Order, customerServiceCharge: Option[Double] = None): Bill = {
+      val menuTotal order.items.map(_.price)
+      val hasHotDrinkOrColdFood = order.items.exists(item => item.ItemType.HotDrink || item.ItemType.ColdFood)
+      val hasHotFood = order.items.exists(_.ItemType.HotFoods)
+      val hasPremiumItem order.items.exists(_.ItemQuality.Premium)
+    }
+  }
+
+  }
