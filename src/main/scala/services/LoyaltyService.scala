@@ -2,15 +2,21 @@ package services
 
 import model._
 import services._
+import utils.Utils._
 
 object LoyaltyService {
 
   def addStampToDrinksCard(customer: Customer): Customer = {
     customer.loyaltyCard match {
       case Some(card: DrinksLoyaltyCard) if card.stamps < 10 =>
-        val updatedCard = card.copy(stamps = card.stamps + 1)
-        customer.copy(loyaltyCard = Some(updatedCard))
-      //add one a day
+        val (newLastActionDate, actionResult) = onePerDay(card.lastActionDate) {
+          card.copy(stamps = card.stamps + 1)
+        }
+        actionResult match {
+          case Some(updatedCard: DrinksLoyaltyCard) =>
+            customer.copy(loyaltyCard = Some(updatedCard.copy(lastActionDate = newLastActionDate)))
+          case None => customer
+        }
       case _ => customer
     }
   }
@@ -18,11 +24,14 @@ object LoyaltyService {
   def addStarsToDiscountCard(customer: Customer, menuTotal: Double): Customer = {
     customer.loyaltyCard match {
       case Some(card: DiscountLoyaltyCard) if menuTotal > 20 =>
-        val updatedCard = card.copy(stars = Math.min(card.stars + 1, 8),
-          totalSpent = card.totalSpent + menuTotal
-        )
-        customer.copy(loyaltyCard = Some(updatedCard))
-      //add one a day
+        val (newLastActionDate, actionResult) = onePerDay(card.lastActionDate) {
+          card.copy(stars = Math.min(card.stars + 1, 8), totalSpent = card.totalSpent + menuTotal)
+        }
+        actionResult match {
+          case Some(updatedCard: DiscountLoyaltyCard) =>
+            customer.copy(loyaltyCard = Some(updatedCard.copy(lastActionDate = newLastActionDate)))
+          case None => customer
+        }
       case _ => customer
     }
   }
