@@ -39,6 +39,12 @@ object BillingService {
 
   //  def calculateLoyaltyDiscount
 
+  // if purchase history = 10 && has DrinksDiscountCard - coldDrink(0).price
+  // if has DiscountCard && bill > 20  THEN addStarsToDiscountCard(1)
+  // if has DiscountCard && bill > 20 && 1 star = 2%, 2 stars = 4%, 3 = 6%, 4 = 8%, 5 = 10%, 6 = 12%, 7 = 14%, 8 = 16%, >8 = 16%
+  //exclude premium items from discount
+
+
   def calculateBill(customer: Customer, order: Order, customServiceCharge: Option[CustomServiceCharge]): Bill = {
     val menuTotal = calculateTotal(order)
     val serviceCharge = calculateServiceCharge(order, customServiceCharge)
