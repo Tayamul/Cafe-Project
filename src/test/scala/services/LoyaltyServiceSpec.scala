@@ -52,7 +52,6 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
 
   }
 
-
   "addStarsToDiscountCard" should {
     "add a star to the customer discount card" when {
       "a purchase over £20 is made" in {
@@ -91,66 +90,81 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
 
   //  "checkLoyaltyEligibility" should {
   //    "confirm a customer is eligible for DrinksLoyaltyCard" when {
-  //      "customer has purchased less than 5 times and is over 18" in {
-  //        val tom: Customer = Customer("Tom", 22, None, ) //purchaseHistory
-  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, )
+  //      "customer has purchased more than 5 times and is over 18" in {
+  //        val tom: Customer = Customer("Tom", 22, None, List.fill(5)(Purchase(5.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "drinks")
+  //        isEligible shouldBe true
   //      }
   //    }
   //    "refuse eligibility for DrinksLoyaltyCard" when {
-  //    "customer has purchased more than 5 times and is over 18" in {
-  //      ???
-  //    }
-  // }
-  //    "customer has purchased less than 5 times and is under 18" in {
-  //      ???
-  //    }
-  // }
-  //    "customer has purchased more than 5 times and is under 18" in {
-  //      ???
-  //    }
-  // }
-  //    "customer already has DiscountLoyaltyCard" in {
-  //      ???
-  //    }
-  //  }
-
-
-  //This part doesn't make sense?  * In order to quality for this discount card, their total spend over a minimum of 5 purchases needs to be £150. E.g. if a customer purchased 4 times, each a minimum of £20, on 4 different  days, they will be entitled to a discount of 8% on every purchase (regardless of * total price).
-  //Should this mean £100 not £150??
-
-  //    "confirm a customer is eligible for DiscountLoyaltyCard" when {
-  //    "customer has made at least 5 times and spent over £150 in total" in {
-  //      ???
-  //    }
-  // }
-  //    "refuse eligibility for DiscountLoyaltyCard" when {
-  //    "customer has made less than 5 purchases and spent over £150 in total" in {
-  //      ???
-  //    }
-  // }
-  //    "customer has made at least 5 purchases and spent under £150 in total" in {
-  //      ???
-  //    }
-  // }
-  //    "customer has purchased more than 5 times and is under 18" in {
-  //      ???
-  //    }
-  // }
-  //    "customer already has DrinksLoyaltyCard" in {
-  //      ???
-  //    }
-  // }
-  //  }
-  //
-  //throw an error / notify when a customer already has one type of loyalty card
-  //not be eligible is already have other card [eithers here], error message to show customer already has a loyalty card
-  // also not eligible if purchased less than 5 times
-  // also not eligible if under 18
-  //
-  //  "calculateLoyaltyDiscount" should {
-  //    "calculate the total discount including the loyalty bonus" when {
-  //      "a purchase is made for ..." in {
-  //        ???
+  //      "customer has purchased less than 5 times and is over 18" in {
+  //        val tom: Customer = Customer("Tom", 22, None, List.fill(4)(Purchase(5.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "drinks")
+  //        isEligible shouldBe false
+  //      }
+  //      "customer is under 18" in {
+  //        val tom: Customer = Customer("Tom", 17, None, List.fill(5)(Purchase(5.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "drinks")
+  //        isEligible shouldBe false
+  //      }
+  //      "customer already has a DiscountLoyaltyCard" in {
+  //        val tom: Customer = Customer("Tom", 22, Some(DiscountLoyaltyCard(3, 5.00)), List.fill(5)(Purchase(5.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "drinks")
+  //        isEligible shouldBe false
   //      }
   //    }
+  //    "confirm a customer is eligible for DiscountLoyaltyCard" when {
+  //      "customer has made at least 5 purchases and spent over £150 in total" in {
+  //        val tom: Customer = Customer("Tom", 22, None, List.fill(5)(Purchase(30.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "discount")
+  //        isEligible shouldBe true
+  //      }
+  //    }
+  //    "refuse eligibility for DiscountLoyaltyCard" when {
+  //      "customer has made less than 5 purchases" in {
+  //        val tom: Customer = Customer("Tom", 22, None, List.fill(4)(Purchase(40.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "discount")
+  //        isEligible shouldBe false
+  //      }
+  //      "customer has made at least 5 purchases but spent under £150 in total" in {
+  //        val tom: Customer = Customer("Tom", 22, None, List.fill(5)(Purchase(20.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "discount")
+  //        isEligible shouldBe false
+  //      }
+  //      "customer is under 18" in {
+  //        val tom: Customer = Customer("Tom", 17, None, List.fill(5)(Purchase(30.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "discount")
+  //        isEligible shouldBe false
+  //      }
+  //      "customer already has a DrinksLoyaltyCard" in {
+  //        val tom: Customer = Customer("Tom", 22, Some(DrinksLoyaltyCard(5)), List.fill(5)(Purchase(30.00)))
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, "discount")
+  //        isEligible shouldBe false
+  //      }
+  //    }
+  //  }
+
+  //  "calculateLoyaltyDiscount" should {
+  //    "calculate the total discount including the loyalty bonus" when {
+  //      "a purchase over £20 is made with no premium items" in {
+  //        val initialCard = DiscountLoyaltyCard(stars = 4, totalSpent = 100.00)
+  //        val tom: Customer = Customer("Tom", 22, Some(initialCard))
+  //        val total = LoyaltyService.calculateLoyaltyDiscount(tom, 50.00, 0.00)
+  //        total shouldBe 50.00 * 0.92 // 4 stars * 2% discount = 8% discount
+  //      }
+  //      "a purchase over £20 is made with some premium items" in {
+  //        val initialCard = DiscountLoyaltyCard(stars = 8, totalSpent = 200.00)
+  //        val tom: Customer = Customer("Tom", 22, Some(initialCard))
+  //        val total = LoyaltyService.calculateLoyaltyDiscount(tom, 50.00, 20.00)
+  //        total shouldBe 20.00 + (30.00 * 0.84) // 8 stars * 2% discount = 16% discount
+  //      }
+  //      "a purchase under £20 is made" in {
+  //        val initialCard = DiscountLoyaltyCard(stars = 4, totalSpent = 100.00)
+  //        val tom: Customer = Customer("Tom", 22, Some(initialCard))
+  //        val total = LoyaltyService.calculateLoyaltyDiscount(tom, 10.00, 0.00)
+  //        total shouldBe 10.00 // No discount applied
+  //      }
+  //    }
+  //  }
+
 }
