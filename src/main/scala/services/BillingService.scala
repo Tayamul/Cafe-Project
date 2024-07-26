@@ -4,25 +4,35 @@ import scala.math.BigDecimal.RoundingMode
 import model._
 import services._
 import OrderService._
+import model.ItemType.ColdDrinks
 import utils.Utils.roundTo2dp
 
 
 object BillingService {
 
-  def calculateLoyaltyDiscount(order: Order): Double = {
-    val freeDrink = if(order.items)
-
-    val menuTotal = calculateTotal(order)
-    val customer = order.customer
-    val hasColdDrink = order.items.exists(item => item.itemType == ItemType.ColdDrinks)
-    val hasHotDrink = order.items.exists(item => item.itemType == ItemType.HotDrinks)
-
-    customer.loyaltyCard match {
-      case Some(DrinksLoyaltyCard) =>
-        if (customer.loyaltyCard(DrinksLoyaltyCard(stamps = 10)) && hasColdDrink)
+  def applyFreeDrinkDiscount(order: Order): Order = {
+    val adjustedItems = order.items.map {
+      case item if item.itemType == ItemType.ColdDrinks => item.copy(price = 0.0)
+      case item => item
     }
-
+    order.copy(items = adjustedItems)
   }
+
+  //
+  //  def calculateLoyaltyDiscount(order: Order): Double = {
+  //    val freeDrink = if(order.items)
+  //
+  //    val menuTotal = calculateTotal(order)
+  //    val customer = order.customer
+  //    val hasColdDrink = order.items.exists(item => item.itemType == ItemType.ColdDrinks)
+  //    val hasHotDrink = order.items.exists(item => item.itemType == ItemType.HotDrinks)
+  //
+  //    customer.loyaltyCard match {
+  //      case Some(DrinksLoyaltyCard) =>
+  //        if (customer.loyaltyCard(DrinksLoyaltyCard(stamps = 10)) && hasColdDrink)
+  //    }
+  //
+  //  }
 
   //  def calculateTotal(order: Order): Double = {
   //    order.items.map(_.price).sum
