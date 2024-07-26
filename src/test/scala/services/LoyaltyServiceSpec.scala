@@ -1,11 +1,14 @@
 package services
 
 import model._
+
 import java.time.LocalDate
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import services.LoyaltyService.checkEligibility
 
 class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
+
 
   "addStampsToDrinksCard" should {
     "add a stamp to the customer drinks card" when {
@@ -83,6 +86,49 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
         val tom: Customer = Customer("Tom", 22, Some(initialCard))
         val updatedTom: Customer = LoyaltyService.addStarsToDiscountCard(tom, 5.00)
         updatedTom.loyaltyCard shouldBe Some(DrinksLoyaltyCard(5))
+      }
+    }
+  }
+
+  "hasALoyaltyCard" should {
+    "return a Left" when {
+      "a customer already has a Loyalty Card" in {
+
+      }
+    }
+
+    "return a Right" when {
+      "a customer does not have a Loyalty Card" in {
+
+      }
+    }
+  }
+
+  private val tom: Customer = Customer("Tom", 22, None, purchaseHistory = 7)
+  private val jake: Customer = Customer("Jake", 28, loyaltyCard = Some(DrinksLoyaltyCard(stamps = 8, lastActionDate = Some(LocalDate.now()))), purchaseHistory = 8)
+  private val mike: Customer = Customer("Mike", 28, Some(DiscountLoyaltyCard(stars = 2, totalSpent = 19, lastActionDate = Some(LocalDate.now()))), purchaseHistory = 5)
+  private val farah: Customer = Customer("Farah", 28, None, purchaseHistory = 2)
+  private val ariel: Customer = Customer("Ariel", 17, None)
+
+  "checkEligibility" should {
+    "return a Right" when {
+      "a customer does not have a loyalty card, is over 18 and has made more than 5 purchases" in {
+        checkEligibility(tom) shouldEqual Right(s"${tom.name} is eligible for a loyalty card.")
+      }
+    }
+
+    "return a Left" when {
+      "a customer has a DrinksLoyaltyCard" in {
+        checkEligibility(jake) shouldEqual Left(false)
+      }
+      "a customer has a DiscountLoyaltyCard" in {
+        checkEligibility(mike) shouldEqual Left(false)
+      }
+      "a customer is under the required age" in {
+        checkEligibility(ariel) shouldEqual Left(false)
+      }
+      "a customer's order purchase is less than 5" in {
+        checkEligibility(farah) shouldEqual Left(false)
       }
     }
   }

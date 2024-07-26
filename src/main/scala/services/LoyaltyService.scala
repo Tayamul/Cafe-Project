@@ -36,8 +36,12 @@ object LoyaltyService {
     }
   }
 
-  def hasALoyaltyCard(customer: Customer): Either[Boolean, Boolean] = {
-    if (customer.loyaltyCard.contains(DrinksLoyaltyCard) || customer.loyaltyCard.contains(DiscountLoyaltyCard)) Left(false) else Right(true)
+  def doesNotHaveALoyaltyCard(customer: Customer): Either[Boolean, Boolean] = {
+    customer.loyaltyCard match {
+      case Some(_: DrinksLoyaltyCard) => Left(false)
+      case Some(_: DiscountLoyaltyCard) => Left(false)
+      case _ => Right(true)
+    }
   }
 
   def amountOfPurchase(customer: Customer): Either[Boolean, Boolean] = {
@@ -48,6 +52,13 @@ object LoyaltyService {
     if (customer.age < 18) Left(false) else Right(true)
   }
 
+  def checkEligibility(customer: Customer): Either[Boolean, String] = {
+    for {
+      hasALoyalCardOrNot <- doesNotHaveALoyaltyCard(customer)
+      amountOfPurchase <- amountOfPurchase(customer)
+      over18 <- eligibleAge(customer)
+    } yield s"${customer.name} is eligible for a loyalty card."
+  }
 }
 
 /** Loyalty scheme:
