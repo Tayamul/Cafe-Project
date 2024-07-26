@@ -15,8 +15,18 @@ object LoyaltyService {
     }
   }
 
-  //  def addStarsToDiscountCard
-  //
+  def addStarsToDiscountCard(customer: Customer, menuTotal: Double) = {
+    customer.loyaltyCard match {
+      case Some(card: DiscountLoyaltyCard) if menuTotal > 20 =>
+        val updatedCard = card.copy(stars = Math.min(card.stars + 1, 8),
+          totalSpent = card.totalSpent + menuTotal
+        )
+        customer.copy(loyaltyCard = Some(updatedCard))
+
+      case _ => customer
+    }
+  }
+
   //  def checkLoyaltyEligibility
   //
   //  def calculateLoyaltyDiscount
