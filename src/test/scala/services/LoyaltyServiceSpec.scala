@@ -1,6 +1,7 @@
 package services
 
 import model._
+import java.time.LocalDate
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -9,10 +10,11 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
   "addStampsToDrinksCard" should {
     "add a stamp to the customer drinks card" when {
       "a drink is purchased" in {
+        val today = LocalDate.now()
         val initialCard = DrinksLoyaltyCard(stamps = 5)
         val tom: Customer = Customer("Tom", 22, Some(initialCard))
         val updatedTom: Customer = LoyaltyService.addStampToDrinksCard(tom)
-        updatedTom.loyaltyCard shouldBe Some(DrinksLoyaltyCard(stamps = 6))
+        updatedTom.loyaltyCard shouldBe Some(DrinksLoyaltyCard(stamps = 6, Some(today)))
       }
     }
     "fail to add a stamp" when {
@@ -22,40 +24,43 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
         val updatedTom: Customer = LoyaltyService.addStampToDrinksCard(tom)
         updatedTom.loyaltyCard shouldBe Some(DrinksLoyaltyCard(stamps = 10))
       }
-      //    "fail to add a stamp" when {
-      //      "the customer has already made a purchase once today" in {
-      //        val initialCard = DrinksLoyaltyCard(stamps = 10)
-      //        val tom: Customer = Customer("Tom", 22, Some(initialCard))
-      //        val updatedTom: Customer = LoyaltyService.addStampToDrinksCard(tom)
-      //        updatedTom.loyaltyCard shouldBe Some(DrinksLoyaltyCard(stamps = 10))
-      //        }
-      //    }     test not written yet(placeholder)
-      "not modify the customer" when {
-        "the customer does not have a DrinksLoyaltyCard" in {
-          val tom: Customer = Customer("Tom", 22, None)
-          val updatedTom: Customer = LoyaltyService.addStampToDrinksCard(tom)
-          updatedTom.loyaltyCard shouldBe None
-        }
+      "the customer has already made a purchase once today" in {
+        val today = LocalDate.now()
+        val lastActionDate = Some(today)
+        val initialCard = DrinksLoyaltyCard(stamps = 8, lastActionDate)
+        val tom: Customer = Customer("Tom", 22, Some(initialCard))
+        val updatedTom: Customer = LoyaltyService.addStampToDrinksCard(tom)
+        updatedTom.loyaltyCard shouldBe Some(initialCard)
       }
-      "not modify the customer" when {
-        "the loyalty card is not a DrinksLoyaltyCard" in {
-          val initialCard = DiscountLoyaltyCard(stars = 3, totalSpent = 5.00)
-          val tom: Customer = Customer("Tom", 22, Some(initialCard))
-          val updatedTom: Customer = LoyaltyService.addStarsToDiscountCard(tom, 5.00)
-          updatedTom.loyaltyCard shouldBe Some(DiscountLoyaltyCard(3, 5.0))
-        }
-      }
-
     }
+
+    "not modify the customer" when {
+      "the customer does not have a DrinksLoyaltyCard" in {
+        val tom: Customer = Customer("Tom", 22, None)
+        val updatedTom: Customer = LoyaltyService.addStampToDrinksCard(tom)
+        updatedTom.loyaltyCard shouldBe None
+      }
+    }
+    "not modify the customer" when {
+      "the loyalty card is not a DrinksLoyaltyCard" in {
+        val initialCard = DiscountLoyaltyCard(stars = 3, totalSpent = 5.00)
+        val tom: Customer = Customer("Tom", 22, Some(initialCard))
+        val updatedTom: Customer = LoyaltyService.addStarsToDiscountCard(tom, 5.00)
+        updatedTom.loyaltyCard shouldBe Some(DiscountLoyaltyCard(3, 5.0))
+      }
+    }
+
   }
+
 
   "addStarsToDiscountCard" should {
     "add a star to the customer discount card" when {
       "a purchase over £20 is made" in {
+        val today = LocalDate.now()
         val initialCard = DiscountLoyaltyCard(stars = 3, totalSpent = 20.00)
         val tom: Customer = Customer("Tom", 22, Some(initialCard))
         val updatedTom: Customer = LoyaltyService.addStarsToDiscountCard(tom, 25.00)
-        updatedTom.loyaltyCard shouldBe Some(DiscountLoyaltyCard(4, 45.00))
+        updatedTom.loyaltyCard shouldBe Some(DiscountLoyaltyCard(4, 45.00, Some(today)))
       }
     }
     "not add a star or the running total spend to the customer discount card" when {
@@ -83,12 +88,14 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
     }
   }
 
+
   //  "checkLoyaltyEligibility" should {
   //    "confirm a customer is eligible for DrinksLoyaltyCard" when {
-  //    "customer has purchased less than 5 times and is over 18" in {
-  //      ???
+  //      "customer has purchased less than 5 times and is over 18" in {
+  //        val tom: Customer = Customer("Tom", 22, None, ) //purchaseHistory
+  //        val isEligible = LoyaltyService.checkLoyaltyEligibility(tom, )
+  //      }
   //    }
-  // }
   //    "refuse eligibility for DrinksLoyaltyCard" when {
   //    "customer has purchased more than 5 times and is over 18" in {
   //      ???
@@ -105,7 +112,7 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
   //    "customer already has DiscountLoyaltyCard" in {
   //      ???
   //    }
-  // }
+  //  }
 
 
   //This part doesn't make sense?  * In order to quality for this discount card, their total spend over a minimum of 5 purchases needs to be £150. E.g. if a customer purchased 4 times, each a minimum of £20, on 4 different  days, they will be entitled to a discount of 8% on every purchase (regardless of * total price).
@@ -146,6 +153,4 @@ class LoyaltyServiceSpec extends AnyWordSpec with Matchers {
   //        ???
   //      }
   //    }
-  //  }
-
 }
