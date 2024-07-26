@@ -17,6 +17,7 @@ class BillingServiceSpec extends AnyWordSpec with Matchers {
 
   // Cold Drinks
   private val icedCoffee: MenuItem = MenuItem(name = "iced coffee", price = 3.5, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdDrinks)
+  private val coke: MenuItem = MenuItem(name = "coke", price = 2.5, itemQuality = ItemQuality.Standard, itemType = ItemType.ColdDrinks)
   private val lemonade: MenuItem = MenuItem(name = "lemonade", price = 3.0, itemQuality = ItemQuality.Premium, itemType = ItemType.ColdDrinks)
 
   // Hot Food
@@ -121,6 +122,28 @@ class BillingServiceSpec extends AnyWordSpec with Matchers {
       bill.order shouldBe newOrder
       bill.serviceCharge shouldBe 4.35
       bill.finalTotal shouldEqual 18.85
+    }
+    "display customer name, order items, service charge and total amount" when {
+      "isAdditive is false and items are cold drinks only amd not premium" in {
+        val newOrder: Order = Order(List(icedCoffee, coke), tom)
+        val customServiceCharge = Some(CustomServiceCharge(0.0, isAdditive = false))
+        val bill = calculateBill(tom, newOrder, customServiceCharge)
+        bill.customer shouldBe tom
+        bill.order shouldBe newOrder
+        bill.serviceCharge shouldBe 0.0
+        bill.finalTotal shouldEqual 6.0
+      }
+    }
+    "display customer name, order items, service charge and total amount" when {
+      "isAdditive is false and items include an automatic service charge " in {
+        val newOrder: Order = Order(List(caesarSalad, greenTea, pancakes), tom)
+        val customServiceCharge = Some(CustomServiceCharge(10.0, isAdditive = false))
+        val bill = calculateBill(tom, newOrder, customServiceCharge)
+        bill.customer shouldBe tom
+        bill.order shouldBe newOrder
+        bill.serviceCharge shouldBe 1.35
+        bill.finalTotal shouldEqual 14.85
+      }
     }
   }
   //  "calculateLoyaltyDiscount" should {
