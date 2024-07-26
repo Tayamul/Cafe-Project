@@ -21,10 +21,10 @@ case class Menu(hotDrinks: List[MenuItem], coldDrinks: List[MenuItem], hotFoods:
 
   def removeMenuItem(item: MenuItem): Either[InvalidMenuItemType, Menu] = {
     item.itemType match {
-      case ItemType.HotDrinks => copy(hotDrinks = hotDrinks.filterNot(_ == item))
-      case ItemType.ColdDrinks => copy(coldDrinks = coldDrinks.filterNot(_ == item))
-      case ItemType.HotFoods => copy(hotFoods = hotFoods.filterNot(_ == item))
-      case ItemType.ColdFoods => copy(coldFoods = coldFoods.filterNot(_ == item))
+      case ItemType.HotDrinks => Right(copy(hotDrinks = hotDrinks.filterNot(_ == item)))
+      case ItemType.ColdDrinks => Right(copy(coldDrinks = coldDrinks.filterNot(_ == item)))
+      case ItemType.HotFoods => Right(copy(hotFoods = hotFoods.filterNot(_ == item)))
+      case ItemType.ColdFoods => Right(copy(coldFoods = coldFoods.filterNot(_ == item)))
       case _ => Left(InvalidMenuItemType("Something went wrong, try again!"))
     }
   }
