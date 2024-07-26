@@ -3,6 +3,7 @@ package services
 import model._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import services.OrderService.updatePurchaseHistory
 import services._
 
 import scala.language.postfixOps
@@ -10,6 +11,7 @@ import scala.language.postfixOps
 class OrderServiceSpec extends AnyWordSpec with Matchers {
 
   private val customer: Customer = Customer("Tom", 22, None)
+  private val customer2: Customer = Customer("Jake", 28, None, purchaseHistory = 3)
   private val items: List[MenuItem] = List(Items.coffee, Items.latte)
 
   "createOrder" should {
@@ -30,6 +32,19 @@ class OrderServiceSpec extends AnyWordSpec with Matchers {
     "not contain caeser salad" in {
       val newOrder = OrderService.createOrder(items, customer)
       newOrder.items should not contain (Items.caesarSalad)
+    }
+  }
+
+  "updatePurchaseHistory" should {
+    "increment a customer's purchase history by 1" when {
+      "a new order is placed for a customer with no previous orders" in {
+        val newOrder = OrderService.createOrder(items, customer)
+        updatePurchaseHistory(newOrder).purchaseHistory shouldEqual 1
+      }
+      "a new order is placed for a customer with 3 previous orders" in {
+        val newOrder = OrderService.createOrder(items, customer2)
+        updatePurchaseHistory(newOrder).purchaseHistory shouldEqual 4
+      }
     }
   }
 
