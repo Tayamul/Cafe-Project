@@ -36,7 +36,15 @@ object LoyaltyService {
     }
   }
 
-  //  def checkLoyaltyEligibility
+  def checkLoyaltyEligibility(customer: Customer): Either[String, String] = {
+    /**
+     * A customer can apply for a loyalty card but are not eligible if they already have the
+     * other card, have purchased from the café less than 5 times or are under 18.
+     */
+    if (customer.loyaltyCard.contains(DrinksLoyaltyCard) || customer.loyaltyCard.contains(DiscountLoyaltyCard)))
+
+
+  }
 
   //  def calculateLoyaltyDiscount
 
