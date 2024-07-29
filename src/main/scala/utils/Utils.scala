@@ -9,7 +9,7 @@ object Utils {
     BigDecimal(num).setScale(2, RoundingMode.HALF_UP).toDouble
   }
 
-  def onePerDay[T](lastActionDate: Option[LocalDate])(actionCard: => T): (Option[LocalDate], Option[T]) = {
+  def onePerDay[ActionResult](lastActionDate: Option[LocalDate])(actionCard: => ActionResult): (Option[LocalDate], Option[ActionResult]) = {
     val today = LocalDate.now()
     lastActionDate match {
       case Some(date) if date.isEqual(today) =>
